@@ -93,4 +93,20 @@ public class Job {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        String newLine = System.lineSeparator();
+        return newLine + "ID: " + id + newLine + "Name: " + name + newLine + "Employer: " + employer + newLine + "Location: " + location + newLine + "Position Type: " + positionType + newLine + "Core Competency: " + coreCompetency + newLine;
+    }
+
+    public static void main(String[] args) {
+        Job testjob = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        System.out.println(testjob);
+    }
+
+//    public static boolean startsAndEndsWithLineSeparator(String str) {
+//        String newLine = System.lineSeparator();
+//        return str.startsWith(newLine) && str.endsWith(newLine);
+//    }
 }
