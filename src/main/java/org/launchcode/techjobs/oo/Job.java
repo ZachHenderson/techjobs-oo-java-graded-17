@@ -1,6 +1,6 @@
 package org.launchcode.techjobs.oo;
 
-import javax.swing.text.Position;
+
 import java.util.Objects;
 
 public class Job {
@@ -13,6 +13,8 @@ public class Job {
     private Location location;
     private PositionType positionType;
     private CoreCompetency coreCompetency;
+
+    private static final String emptyMessage = "Data not available";
 
     // TODO: Add two constructors - one to initialize a unique ID and a second to initialize the
     //  other five fields. The second constructor should also call the first in order to initialize
@@ -97,16 +99,47 @@ public class Job {
     @Override
     public String toString() {
         String newLine = System.lineSeparator();
-        return newLine + "ID: " + id + newLine + "Name: " + name + newLine + "Employer: " + employer + newLine + "Location: " + location + newLine + "Position Type: " + positionType + newLine + "Core Competency: " + coreCompetency + newLine;
+
+//       *** Using reflection
+//            Job job = new Job();
+//            Field[] fields = job.getClass().getDeclaredFields();
+//            for (Field f : fields) {
+//               f.setAccessible(true);
+//               try {
+//                   if (f.get(this) == null) {
+//                       System.out.println(newLine + f +": Data not available");
+//                   }
+//               } catch (IllegalAccessException e) {
+//
+//               }
+//
+//            }
+
+//        Job job1 = new Job();
+//        new Job() {
+//            public void checkForEmptyField() {
+//                if (Objects.equals(job1.getName(), "")) {
+//                    job1.setName("Data not available");
+//                }
+//            }
+//        };
+
+
+//        Second attempt
+        return String.format(newLine + "ID: %s\nName: %s\nEmployer: %s\nLocation: %s\nPosition Type: %s\nCore Competency: %s" + newLine,
+                id,
+                Objects.equals(getName(), "") ? emptyMessage : name,
+                Objects.equals(employer.getValue(), "") ? emptyMessage : employer,
+                Objects.equals(location.getValue(), "") ? emptyMessage : location,
+                Objects.equals(positionType.getValue(), "") ? emptyMessage : positionType,
+                Objects.equals(coreCompetency.getValue() , "") ? emptyMessage : coreCompetency);
+
+//        Original, working
+//        return newLine + "ID: " + id + newLine + "Name: " + name + newLine + "Employer: " + employer + newLine + "Location: " + location + newLine + "Position Type: " + positionType + newLine + "Core Competency: " + coreCompetency + newLine;
     }
 
     public static void main(String[] args) {
-        Job testjob = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        Job testjob = new Job("Product Tester", new Employer(""), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
         System.out.println(testjob);
     }
-
-//    public static boolean startsAndEndsWithLineSeparator(String str) {
-//        String newLine = System.lineSeparator();
-//        return str.startsWith(newLine) && str.endsWith(newLine);
-//    }
 }

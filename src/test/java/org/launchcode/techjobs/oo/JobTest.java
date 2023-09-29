@@ -1,6 +1,7 @@
 package org.launchcode.techjobs.oo;
 
 import org.junit.Test;
+import org.testng.annotations.BeforeTest;
 
 import static java.lang.System.lineSeparator;
 import static org.junit.Assert.*;
@@ -42,11 +43,24 @@ public class JobTest extends AbstractTest{
         Job job1 = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
         String newLine = System.lineSeparator();
         String firstChar = String.valueOf(job1.toString().charAt(0));
-//        String firstSeparator = String.valueOf(job1.toString().indexOf(newLine));
         String lastChar = String.valueOf(job1.toString().charAt(job1.toString().length()-1));
         assertEquals(newLine, firstChar);
-//        assertEquals(Job.startsAndEndsW+ithLineSeparator(job1.toString()), true);
         assertEquals(newLine, lastChar);
+    }
+
+    @BeforeTest
+    @Test
+    public void testToStringContainsCorrectLabelsAndData(){
+        Job job1 = new Job("Product tester", new Employer(""), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        String newLine = System.lineSeparator();
+        String expectedResult = String.format(newLine + "ID: " + job1.getId() + "\nName: Product tester\nEmployer: Data not available\nLocation: Desert\nPosition Type: Quality control\nCore Competency: Persistence" + newLine);
+        assertEquals(expectedResult, job1.toString());
+    }
+
+    @Test
+    public void testToStringHandlesEmptyField(){
+        Job job1 = new Job("Product tester", new Employer(""), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        assertTrue(job1.toString().contains("Data not available"));
     }
 
 }
